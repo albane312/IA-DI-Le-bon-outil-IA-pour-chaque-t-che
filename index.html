@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Un outil simple pour comprendre les précautions à prendre lorsqu'on utilise l'intelligence artificielle.">
+  <title>IA & Moi — Comprendre et utiliser l'IA</title>
+  <style>
+    :root {
+      --olive: #596447;
+      --olive-dark: #39432f;
+      --olive-light: #e8ecdf;
+      --cream: #f7f8f3;
+      --white: #ffffff;
+      --ink: #273024;
+      --muted: #66705f;
+      --border: #d9dfd0;
+      --shadow: 0 18px 45px rgba(48, 59, 39, .09);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: var(--cream);
+      line-height: 1.6;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      max-width: 1120px;
+      margin: auto;
+      padding: 22px 24px;
+    }
+    .brand { font-weight: 800; font-size: 1.15rem; color: var(--olive-dark); letter-spacing: .2px; }
+    .brand span { color: var(--olive); }
+    .tag { color: var(--muted); font-size: .9rem; }
+    main { max-width: 1120px; margin: auto; padding: 24px; }
+    .hero {
+      background: linear-gradient(135deg, #e8ecdf, #f5f6ef);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: clamp(28px, 6vw, 64px);
+      display: grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap: 30px;
+      align-items: center;
+    }
+    .eyebrow {
+      color: var(--olive);
+      text-transform: uppercase;
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: 1.6px;
+    }
+    h1 { font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1.08; margin: 12px 0 18px; color: var(--olive-dark); }
+    h2 { color: var(--olive-dark); line-height: 1.2; }
+    .hero p { max-width: 620px; color: #515b49; font-size: 1.08rem; }
+    .hero-art {
+      min-height: 210px; display: grid; place-items: center;
+      border-radius: 24px; background: rgba(255,255,255,.65);
+      border: 1px solid rgba(89,100,71,.16);
+    }
+    .brain { font-size: 6rem; filter: grayscale(.25); }
+    .button {
+      display: inline-block; border: 0; border-radius: 999px;
+      background: var(--olive); color: white; padding: 14px 23px;
+      font-weight: 700; font-size: 1rem; cursor: pointer;
+      text-decoration: none; transition: .2s ease;
+    }
+    .button:hover { background: var(--olive-dark); transform: translateY(-1px); }
+    .button.secondary { background: var(--olive-light); color: var(--olive-dark); }
+    .section { margin-top: 48px; }
+    .section-intro { color: var(--muted); margin-top: -5px; }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 22px; }
+    .card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 18px; padding: 22px; box-shadow: 0 5px 18px rgba(48,59,39,.035);
+    }
+    .card .symbol { font-size: 1.65rem; }
+    .card h3 { margin: 8px 0 6px; color: var(--olive-dark); }
+    .card p { margin: 0; color: var(--muted); font-size: .94rem; }
+    .panel {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 24px; padding: clamp(22px, 4vw, 36px); box-shadow: var(--shadow);
+    }
+    label { display: block; font-weight: 700; margin: 18px 0 8px; }
+    textarea {
+      width: 100%; min-height: 130px; resize: vertical;
+      border: 1px solid #cbd3c0; border-radius: 14px;
+      padding: 15px; font: inherit; color: var(--ink); background: #fdfefb;
+    }
+    textarea:focus { outline: 3px solid #dce4d1; border-color: var(--olive); }
+    .hint { color: var(--muted); font-size: .88rem; margin: 8px 0 18px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .result {
+      display: none; margin-top: 24px; border-radius: 18px;
+      background: #f0f3e9; border: 1px solid #d7dfca; padding: 22px;
+    }
+    .result.show { display: block; }
+    .result h3 { margin-top: 0; color: var(--olive-dark); }
+    .result p { white-space: pre-line; }
+    .source-note { font-size: .85rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 13px; margin-top: 18px; }
+    .notice {
+      border-left: 4px solid var(--olive); background: #f0f2eb;
+      padding: 14px 16px; border-radius: 0 12px 12px 0; color: #4f5948;
+    }
+    footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 36px 24px 48px; }
+    @media (max-width: 760px) {
+      header { padding: 18px; }
+      main { padding: 14px; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-art { min-height: 130px; }
+      .brain { font-size: 4rem; }
+      .cards { grid-template-columns: 1fr; }
+      .tag { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">IA <span>&</span> Moi</div>
+    <div class="tag">Comprendre l'intelligence artificielle en toute prudence</div>
+  </header>
+
+  <main>
+    <section class="hero" id="accueil">
+      <div>
+        <div class="eyebrow">Ton guide pratique</div>
+        <h1>Mieux comprendre l'IA, simplement.</h1>
+        <p>Tu te poses une question sur l'intelligence artificielle ? Écris-la et découvre les conseils présents dans les documents de référence.</p>
+        <a class="button" href="#question">Poser une question</a>
+      </div>
+      <div class="hero-art" aria-hidden="true"><div class="brain">💡</div></div>
+    </section>
+
+    <section class="section">
+      <h2>Les bons réflexes à retenir</h2>
+      <p class="section-intro">Quelques précautions essentielles avant d'utiliser un outil d'IA.</p>
+      <div class="cards">
+        <article class="card">
+          <div class="symbol">🔎</div>
+          <h3>Vérifier les réponses</h3>
+          <p>Une réponse peut être fausse : compare-la avec des sources fiables et relis le résultat.</p>
+        </article>
+        <article class="card">
+          <div class="symbol">🔒</div>
+          <h3>Protéger ses données</h3>
+          <p>Ne communique pas ton adresse personnelle ni tes mots de passe.</p>
+        </article>
+        <article class="card">
+          <div class="symbol">✍️</div>
+          <h3>Éviter le plagiat</h3>
+          <p>Ne recopie pas directement les réponses de l'IA : reformule et fais ton propre travail.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section panel" id="question">
+      <div class="eyebrow">Espace questions</div>
+      <h2>Quelle est ta question sur l'IA ?</h2>
+      <p class="section-intro">Écris ta question avec tes mots. L'outil recherchera le conseil correspondant dans les documents fournis.</p>
+      <form id="questionForm">
+        <label for="userQuestion">Ta question</label>
+        <textarea id="userQuestion" placeholder="Exemple : Est-ce que je peux donner mon mot de passe à une IA ?" required></textarea>
+        <p class="hint">Ne saisis aucune information personnelle ou confidentielle.</p>
+        <div class="actions">
+          <button class="button" type="submit">Obtenir une réponse</button>
+          <button class="button secondary" type="button" id="clearBtn">Effacer</button>
+        </div>
+      </form>
+      <div class="result" id="result" aria-live="polite">
+        <h3 id="resultTitle">Voici ce qu'il faut retenir</h3>
+        <p id="resultText"></p>
+        <div class="source-note" id="sourceText"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="notice">
+        <strong>À savoir :</strong> cette application ne consulte pas Internet et ne génère pas de nouvelles informations. Elle s'appuie uniquement sur les éléments intégrés à partir des PDF fournis. Si les documents ne répondent pas à une question, elle le signalera clairement.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    IA & Moi · Outil pédagogique · Aucune question n'est enregistrée.
+  </footer>
+
+  <script>
+    // Réponses construites uniquement à partir des documents PDF fournis.
+    const knowledge = [
+      {
+        keywords: ["fausse information", "fausses informations", "information fausse", "fiable", "source", "sources", "vrai", "vérifier", "verifier"],
+        title: "Vérifie les informations",
+        answer: "Les réponses de l'IA peuvent contenir de fausses informations ou des erreurs. Vérifie toujours les réponses avec des sources fiables et relis les résultats avant de les utiliser."
+      },
+      {
+        keywords: ["donnée personnelle", "données personnelles", "adresse", "mot de passe", "mots de passe", "confidentiel", "vie privée"],
+        title: "Protège tes données personnelles",
+        answer: "Ne communique pas tes données personnelles à un outil d'IA. En particulier, ne donne jamais ton adresse personnelle ni tes mots de passe."
+      },
+      {
+        keywords: ["plagiat", "copier", "copie", "recopier", "devoir", "travail scolaire", "rendre"],
+        title: "Attention au plagiat",
+        answer: "Ne recopie pas directement les réponses produites par l'IA. Utilise-les avec recul et rédige ton travail avec tes propres mots."
+      },
+      {
+        keywords: ["erreur", "erreurs", "se trompe", "tromper", "résultat", "resultat", "relire"],
+        title: "Relis et vérifie les résultats",
+        answer: "L'IA peut faire des erreurs. Il faut toujours relire et vérifier les résultats avant de leur faire confiance."
+      },
+      {
+        keywords: ["image truquée", "images truquées", "fausse image", "image fausse", "photo truquée", "origine image", "origine des images"],
+        title: "Vérifie l'origine des images",
+        answer: "Les documents recommandent de vérifier l'origine des images et des informations afin de repérer les contenus qui pourraient être truqués."
+      },
+      {
+        keywords: ["cnil", "rgpd", "sécurité", "securite", "développement", "developpement", "modèle", "modele", "annoter les données"],
+        title: "Ce que mentionne le document de la CNIL",
+        answer: "Le second document fourni présente une recommandation de la CNIL sur l'application du RGPD au développement des systèmes d'intelligence artificielle. Il annonce trois fiches pratiques : analyser le statut d'un modèle d'IA au regard du RGPD, annoter les données et garantir la sécurité du développement d'un système d'IA. Le document fourni ne détaille pas davantage ces fiches."
+      }
+    ];
+
+    const form = document.getElementById("questionForm");
+    const questionInput = document.getElementById("userQuestion");
+    const result = document.getElementById("result");
+    const resultTitle = document.getElementById("resultTitle");
+    const resultText = document.getElementById("resultText");
+    const sourceText = document.getElementById("sourceText");
+
+    function normalize(text) {
+      return text.toLocaleLowerCase("fr")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[’']/g, " ")
+        .replace(/[.,!?;:]/g, " ");
+    }
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+      const question = questionInput.value.trim();
+      if (!question) return;
+
+      const normalizedQuestion = normalize(question);
+      const match = knowledge.find(item =>
+        item.keywords.some(keyword => normalizedQuestion.includes(normalize(keyword)))
+      );
+
+      if (match) {
+        resultTitle.textContent = match.title;
+        resultText.textContent = match.answer;
+        sourceText.textContent = "Source : « gestion applications albane et kim.pdf » et/ou « albane gestion.pdf », selon le sujet de la question.";
+      } else {
+        resultTitle.textContent = "Information non trouvée dans les documents";
+        resultText.textContent = "Les PDF fournis ne contiennent pas assez d'informations pour répondre précisément à cette question. Pour éviter d'inventer une réponse, l'application préfère te le signaler.";
+        sourceText.textContent = "Aucune réponse n'a été inventée ou recherchée sur Internet.";
+      }
+      result.classList.add("show");
+      result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+
+    document.getElementById("clearBtn").addEventListener("click", function() {
+      questionInput.value = "";
+      result.classList.remove("show");
+      questionInput.focus();
+    });
+  </script>
+</body>
+</html>
